@@ -1,0 +1,65 @@
+# Fine-tuned Domain-Adapted Infant Pose Estimation (FiDIP) — EECE 7398 Hands-on Homework
+
+This repository contains my implementation and extensions for the **FiDIP (Fine-tuned Domain-Adapted Infant Pose)** model, completed as part of the **EECE 7398: Machine Learning with Small Data** course at Northeastern University.
+
+The FiDIP model, developed by the [Augmented Cognition Lab (AClab)](https://coe.northeastern.edu/Research/AClab/), uses domain adaptation and transfer learning to estimate infant poses from limited annotated data. It builds upon the **HRNet-W48** architecture and transfers knowledge from adult pose datasets (COCO) to synthetic and real infant images from the **SyRIP** dataset.
+
+---
+
+## Homework Overview
+
+The assignment objectives were to:
+- Set up and understand the FiDIP model pipeline from the official repository.  
+- Evaluate the **pretrained FiDIP model** on the SyRIP validation dataset.  
+- Compare its performance with a **scratch-trained HRNet** baseline.  
+- Visualize keypoint predictions and analyze results quantitatively and qualitatively.
+
+All experiments were executed on the **Northeastern Explorer GPU cluster**, using a **Tesla P100 (12 GB)** GPU.
+
+---
+
+## Additions and Implementation Details
+
+This fork extends the original FiDIP repository with new experiments, scripts, and visualizations developed during the homework.
+
+### 1. Model Training and Evaluation
+- Trained the FiDIP HRNet model from scratch using SyRIP data.  
+- Evaluated both pretrained and custom-trained models using COCO keypoint metrics (AP, AR, AP@0.5, AP@0.75).
+
+| Model | AP | AR | AP@0.5 | AP@0.75 |
+|:------|:--:|:--:|:------:|:------:|
+| Scratch-Trained HRNet | 0.097 | 0.120 | 0.284 | 0.042 |
+| Pretrained FiDIP | **0.921** | **0.936** | **0.971** | **0.971** |
+
+The pretrained model achieved near-perfect performance, while the scratch-trained model underperformed due to limited data and lack of prior initialization.
+
+---
+
+### 2. Enhanced Visualization
+- Generated keypoint confidence maps and skeleton overlays on validation images.  
+- Added legends and color-coded confidence visualization (green for high confidence, orange for medium, red for low).  
+- Organized all outputs under a `demo_outputs/` directory for clarity.
+
+---
+
+### 3. New Script: Video Pose Estimation
+A new script, **`tools/demo_video.py`**, was implemented to extend FiDIP from static image inference to video-based pose tracking.
+
+**Features:**
+- Frame-by-frame processing using OpenCV’s `VideoCapture` and `VideoWriter`.  
+- Real-time skeleton overlay with confidence-based line thickness.  
+- FPS display and smooth temporal tracking for continuous infant motion.  
+- Works with both pre-recorded videos and live webcam streams.
+
+This script demonstrates FiDIP’s ability to maintain consistent pose estimation across motion and varying lighting conditions.
+
+---
+
+### 4. Report and Analysis
+A detailed report summarizing the experiments, evaluation metrics, observations, and video demo extension is included:
+
+- **File:** `MLSD_FIDIP_Nikita_Mandal.pdf`  
+- **Sections:** Environment setup, model evaluation, visualization results, and discussion.
+
+---
+
